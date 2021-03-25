@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scripts/CardHolder.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Card.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Sprites/CardHolderUI.png" type="Texture" id=3]
+
+[node name="CardHolder" type="Node2D"]
+script = ExtResource( 1 )
+Card = ExtResource( 2 )
+cycleTime = 1
+
+[node name="CardHolderUI" type="Sprite" parent="."]
+position = Vector2( 680, 0 )
+texture = ExtResource( 3 )
+
+[node name="DayTimer" type="Timer" parent="."]
+[connection signal="timeout" from="DayTimer" to="." method="_on_Timer_timeout"]

@@ -19,14 +19,19 @@ func _process(delta):
 	if Input.is_action_pressed("game_accept") and mouseHovering and not selected:
 		emit_signal("cardSelected", cardType)
 		selected = true
-		
+
+func getSize() -> Vector2:
+	return $CardSprite.texture.get_size()
+
+func setProperties(type: String) -> void:
+	cardType = type
+
 func _on_Area2D_mouse_entered():
 	mouseHovering = true
 
 
 func _on_Area2D_mouse_exited():
 	mouseHovering = false
-
 
 func _on_Game_deselectCard():
 	selected = false

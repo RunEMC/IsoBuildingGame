@@ -19,6 +19,13 @@ config/name="IsoBuildingGame"
 boot_splash/image="res://Sprites/iso_tile green.png"
 config/icon="res://icon.png"
 
+[display]
+
+window/size/width=1366
+window/size/height=768
+window/size/test_width=1366
+window/size/test_height=768
+
 [importer_defaults]
 
 texture={

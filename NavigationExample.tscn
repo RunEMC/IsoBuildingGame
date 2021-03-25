@@ -4,7 +4,6 @@
 [ext_resource path="res://icon.png" type="Texture" id=2]
 
 [sub_resource type="NavigationPolygon" id=1]
-
 vertices = PoolVector2Array( 630, 270, 600, 77, 951, 117, 888, 501, 599, 550, 351, 237, 243, 58, 383, 394, 382, 562, 99, 556, 216, 390, 103, 63 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 0, 3, 4, 5, 6 ), PoolIntArray( 7, 8, 9, 10 ), PoolIntArray( 10, 9, 11 ), PoolIntArray( 5, 10, 11, 6 ) ]
 outlines = [ PoolVector2Array( 103, 63, 99, 556, 382, 562, 383, 394, 216, 390, 351, 237, 599, 550, 888, 501, 951, 117, 600, 77, 630, 270, 243, 58 ) ]
@@ -30,4 +29,3 @@ texture_mode = 1076388272
 position = Vector2( 311, 468 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 2 )
-

@@ -15,7 +15,8 @@ _global_script_class_icons={
 
 [application]
 
-config/name="tilemap_navigation_3.1"
+config/name="IsoBuildingGame"
+boot_splash/image="res://Sprites/iso_tile green.png"
 config/icon="res://icon.png"
 
 [importer_defaults]

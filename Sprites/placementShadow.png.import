@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/iso_tile green.png-e1abdf62c9d7659d9ceb3aa34f05c4b9.stex"
+path="res://.import/placementShadow.png-8a7d9512641960ea747bcabd7e1f6772.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://iso_tile green.png"
-dest_files=[ "res://.import/iso_tile green.png-e1abdf62c9d7659d9ceb3aa34f05c4b9.stex" ]
+source_file="res://Sprites/placementShadow.png"
+dest_files=[ "res://.import/placementShadow.png-8a7d9512641960ea747bcabd7e1f6772.stex" ]
 
 [params]
 

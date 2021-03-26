@@ -1,7 +1,5 @@
 extends Node2D
 
-signal deselectCard
-
 var screenSize
 var selectedCard = null
 
@@ -23,12 +21,11 @@ func _process(delta):
 		if Input.is_action_pressed("game_accept"):
 			print("Mouse Click/Unclick at: ", mousePos)
 			selectedCard = null
-			emit_signal("deselectCard")
+			$CardHolder.deleteCard()
 			$TileMap.placeTile(mousePos)
 			$TileMapOverlay.clearShadow()
-		
 
-func _on_Card_cardSelected(cardType):
+
+func _on_CardHolder_cardSelected(cardType):
 	selectedCard = cardType
 	print("Card selected: ", selectedCard)
-	pass # Replace with function body.

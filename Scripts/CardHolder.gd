@@ -1,5 +1,7 @@
 extends Node2D
 
+signal cardSelected(cardType)
+
 export (PackedScene) var Card
 export var cycleTime = 5
 var cardsInHand = 0
@@ -7,6 +9,7 @@ var cardsLimit
 var cardHolderSize
 export var cardPadding = 10
 var cardSize
+var selectedCardId = null
 
 
 # Called when the node enters the scene tree for the first time.
@@ -23,7 +26,6 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
-#	pass
 
 func setSize(width: int = cardHolderSize.x, height: int = cardHolderSize.y) -> void:
 	$CardHolderUI.scale = Vector2(width/cardHolderSize.x, height/cardHolderSize.y)
@@ -39,15 +41,37 @@ func addCardToHand(cardType: String) -> void:
 		add_child(card)
 		cardsInHand += 1
 		
-		print("Added ", cardType, " card at ", card.position)
+		print_debug("Added ", cardType, " card at ", card.position)
 		
 	else:
-		print("Hand full!")
+		print_debug("Hand full!")
+	
+# Deletes selected card
+func deleteCard():
+	if selectedCardId != null:
+		var inst = instance_from_id(selectedCardId)
+		print_debug("Deleted card ", selectedCardId, inst)
+		selectedCardId = null
+		inst.free()
+		cardsInHand -= 1
+#		Handle shfiting the rest of the cards over
+	
 		
-
-func _on_Card_cardSelected(cardType):
-	# Deal with card id here
-	pass
+func deselectCard():
+	if selectedCardId != null:
+		var inst = instance_from_id(selectedCardId)
+		inst.deselectCard()
+		print_debug("Deselected ", selectedCardId, inst)
+		selectedCardId = null
+	
+func _on_Card_cardSelected(cardId, cardType):
+#	Deselect previous card
+	if selectedCardId != cardId:
+		deselectCard()
+		
+	selectedCardId = cardId
+#	print_debug("Selected ", cardType, " card: ", cardId)
+	emit_signal("cardSelected", cardType)
 	
 
 func _on_Timer_timeout():

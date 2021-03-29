@@ -10,6 +10,7 @@ var cardHolderSize
 export var cardPadding = 10
 var cardSize
 var selectedCardId = null
+var cardsToMove = []
 
 
 # Called when the node enters the scene tree for the first time.
@@ -18,14 +19,28 @@ func _ready():
 	cardSize = card.getSize()
 	cardHolderSize = $CardHolderUI.texture.get_size()
 	cardsLimit = floor(cardHolderSize.x/(cardSize.x + cardPadding))
-	print("Card limit: ", cardsLimit)
+	print_debug("Card limit: ", cardsLimit)
 	
 	$DayTimer.wait_time = cycleTime
 	$DayTimer.start()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
+func _process(delta):
+	var i = 0
+	for cardToMove in cardsToMove:
+		var cardChild = cardToMove[0]
+		var newPos = cardToMove[1]
+		if cardChild != null and cardChild.position != newPos:
+#			print("Moving child from ", cardChild.position, " to ", newPos)
+			cardChild.position = cardChild.position.move_toward(newPos, delta * 80)
+		else:
+			if cardChild == null:
+				print_debug("card doesnt exist at ", newPos)
+			else:
+				print_debug("Child reached destination", cardChild.position, newPos)
+			cardsToMove.remove(i)
+		i += 1
 
 func setSize(width: int = cardHolderSize.x, height: int = cardHolderSize.y) -> void:
 	$CardHolderUI.scale = Vector2(width/cardHolderSize.x, height/cardHolderSize.y)
@@ -50,12 +65,23 @@ func addCardToHand(cardType: String) -> void:
 func deleteCard():
 	if selectedCardId != null:
 		var inst = instance_from_id(selectedCardId)
+		var instCoord = inst.position
 		print_debug("Deleted card ", selectedCardId, inst)
 		selectedCardId = null
 		inst.free()
 		cardsInHand -= 1
 #		Handle shfiting the rest of the cards over
-	
+		var children = get_children()
+		for child in children:
+			if (child.name.substr(1,4) == "Card" or child.name == "Card") and child.position.x > instCoord.x:
+				var newChildPos = child.position
+				newChildPos.x = newChildPos.x - cardSize.x - cardPadding
+				print_debug("Moving child from ", child.position, " to ", newChildPos)
+#				child.position = position.move_toward(newChildPos, 1)
+#				child.position = newChildPos
+				cardsToMove.append([child, newChildPos])
+					
+				
 		
 func deselectCard():
 	if selectedCardId != null:

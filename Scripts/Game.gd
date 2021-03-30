@@ -20,10 +20,10 @@ func _process(delta):
 #		Place Tile
 		if Input.is_action_pressed("game_accept"):
 			print("Mouse Click/Unclick at: ", mousePos)
-			selectedCard = null
 			$CardHolder.deleteCard()
-			$TileMap.placeTile(mousePos)
+			$TileMap.placeTile(mousePos, selectedCard)
 			$TileMapOverlay.clearShadow()
+			selectedCard = null
 
 
 func _on_CardHolder_cardSelected(cardType):

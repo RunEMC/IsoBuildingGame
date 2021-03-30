@@ -119,7 +119,6 @@ func _on_Card_cardSelected(cardId, cardType):
 func spawnNewCard():
 	randomize()
 	var rng = randi() % totalSpawnWeight + 1
-	print(rng)
 	for data in cardData:
 		if rng <= data.spawnWeight and data.spawnWeight != null:
 			addCardToHand(data.type)

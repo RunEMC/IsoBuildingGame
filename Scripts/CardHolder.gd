@@ -11,6 +11,17 @@ export var cardPadding = 10
 var cardSize
 var selectedCardId = null
 var cardsToMove = []
+var cardData = [
+	{
+		"type": "dirt",
+		"spawnWeight": 2
+	},
+	{
+		"type": "grass",
+		"spawnWeight": 1
+	}
+]
+var totalSpawnWeight = 0
 
 
 # Called when the node enters the scene tree for the first time.
@@ -24,6 +35,11 @@ func _ready():
 	$DayTimer.wait_time = cycleTime
 	$DayTimer.start()
 
+	for data in cardData:
+		totalSpawnWeight += data.spawnWeight
+		data.spawnWeight = totalSpawnWeight
+	
+	print_debug(cardData)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -90,6 +106,7 @@ func deselectCard():
 		print_debug("Deselected ", selectedCardId, inst)
 		selectedCardId = null
 	
+	
 func _on_Card_cardSelected(cardId, cardType):
 #	Deselect previous card
 	if selectedCardId != cardId:
@@ -99,7 +116,16 @@ func _on_Card_cardSelected(cardId, cardType):
 #	print_debug("Selected ", cardType, " card: ", cardId)
 	emit_signal("cardSelected", cardType)
 	
+func spawnNewCard():
+	randomize()
+	var rng = randi() % totalSpawnWeight + 1
+	print(rng)
+	for data in cardData:
+		if rng <= data.spawnWeight and data.spawnWeight != null:
+			addCardToHand(data.type)
+			return data
+	
 
 func _on_Timer_timeout():
-	addCardToHand("dirt")
+	spawnNewCard()
 	$DayTimer.start()

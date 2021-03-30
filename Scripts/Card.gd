@@ -21,13 +21,18 @@ func _process(delta):
 		selected = true
 
 func getSize() -> Vector2:
-	return $CardSprite.texture.get_size()
+	return $CardSprite.frames.get_frame("default", 0).get_size()
 
 func deselectCard():
 	selected = false
 	
 func setProperties(type: String) -> void:
-	cardType = type
+	var types = $CardSprite.frames.get_animation_names()
+	if type in types:
+		cardType = type
+		$CardSprite.animation = type
+	else:
+		print_debug("[Error]: Sprite card type not found: ", type)
 
 func _on_Area2D_mouse_entered():
 	mouseHovering = true

@@ -5,10 +5,10 @@ extends TileMap
 #	pass # Replace with function body.
 
 
-func placeTile(globalPosition: Vector2, tileType: String) -> void:
-	var newCellPos = world_to_map(to_local(globalPosition))
-	var cellId = tile_set.find_tile_by_name(tileType + "Tile")
-	print_debug("Placing tile ", tileType)
+func placeNode(globalPosition: Vector2, tileType: String) -> void:
+	var newCellPos = world_to_map(to_local(globalPosition)+ position)
+	var cellId = tile_set.find_tile_by_name(tileType + "Node")
+	print_debug("Placing node ", tileType, " with id ", cellId)
 	set_cellv(newCellPos, cellId)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -53,8 +53,8 @@ func _process(delta):
 		else:
 			if cardChild == null:
 				print_debug("card doesnt exist at ", newPos)
-			else:
-				print_debug("Child reached destination", cardChild.position, newPos)
+#			else:
+#				print_debug("Child reached destination", cardChild.position, newPos)
 			cardsToMove.remove(i)
 		i += 1
 
@@ -72,7 +72,7 @@ func addCardToHand(cardType: String) -> void:
 		add_child(card)
 		cardsInHand += 1
 		
-		print_debug("Added ", cardType, " card at ", card.position)
+#		print_debug("Added ", cardType, " card at ", card.position)
 		
 	else:
 		print_debug("Hand full!")
@@ -82,7 +82,7 @@ func deleteCard():
 	if selectedCardId != null:
 		var inst = instance_from_id(selectedCardId)
 		var instCoord = inst.position
-		print_debug("Deleted card ", selectedCardId, inst)
+#		print_debug("Deleted card ", selectedCardId, inst)
 		selectedCardId = null
 		inst.free()
 		cardsInHand -= 1
@@ -92,7 +92,7 @@ func deleteCard():
 			if (child.name.substr(1,4) == "Card" or child.name == "Card") and child.position.x > instCoord.x:
 				var newChildPos = child.position
 				newChildPos.x = newChildPos.x - cardSize.x - cardPadding
-				print_debug("Moving child from ", child.position, " to ", newChildPos)
+#				print_debug("Moving child from ", child.position, " to ", newChildPos)
 #				child.position = position.move_toward(newChildPos, 1)
 #				child.position = newChildPos
 				cardsToMove.append([child, newChildPos])
@@ -103,7 +103,7 @@ func deselectCard():
 	if selectedCardId != null:
 		var inst = instance_from_id(selectedCardId)
 		inst.deselectCard()
-		print_debug("Deselected ", selectedCardId, inst)
+#		print_debug("Deselected ", selectedCardId, inst)
 		selectedCardId = null
 	
 	

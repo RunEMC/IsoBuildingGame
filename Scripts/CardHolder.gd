@@ -75,10 +75,10 @@ func setSize(width: int = cardHolderSize.x, height: int = cardHolderSize.y) -> v
 	$CardHolderUI.scale = Vector2(width/cardHolderSize.x, height/cardHolderSize.y)
 	cardHolderSize = Vector2(width, height)
 
-func addCardToHand(cardData) -> void:
+func addCardToHand(cardDataLocal) -> void:
 	if cardsInHand < cardsLimit:
 		var card = Card.instance()
-		card.initCard(cardData.name, cardData.type)
+		card.initCard(cardDataLocal.name, cardDataLocal.type)
 		card.position.x = cardPadding + ((cardSize.x + cardPadding) * cardsInHand) + floor(cardSize.x / 2)
 		card.connect("cardSelected", self, "_on_Card_cardSelected")
 		

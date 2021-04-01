@@ -35,14 +35,6 @@ var nodeSpawnData = {
 #		"totalWeight": 5
 	}
 }
-var buildingData = {
-	"lumber": {
-		"requiredNode": "tree"
-	},
-	"mine": {
-		"requiredNode": "rock"
-	}
-}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -87,15 +79,16 @@ func _process(delta):
 #				Spawn new tile
 				$TileMap.placeTile(mousePos, selectedCardData.cardName)
 				createNode(mousePos, selectedCardData.cardName)
-			if selectedCardData.cardType == "building":
+			elif selectedCardData.cardType == "building":
 #				Build new building
 				$NodeMap.buildOverNode(mousePos, selectedCardData.cardName)
 			else:
 				print_debug("[Error] Invalid card type selected: ", selectedCardData)
-#			Additional cleanup
+				
 			$CardHolder.deleteCard()
 			$TileMapOverlay.clearShadow()
 			selectedCardId = null
+				
 				
 
 

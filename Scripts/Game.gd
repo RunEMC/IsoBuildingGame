@@ -85,13 +85,11 @@ func _process(delta):
 			else:
 				print_debug("[Error] Invalid card type selected: ", selectedCardData)
 				
-				
-				
-
 
 func _on_CardHolder_cardSelected(cardId):
 	selectedCardId = cardId
 #	print("Card selected: ", selectedCard)
+
 
 func resetSelection():
 	$CardHolder.deleteCard()

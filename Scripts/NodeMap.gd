@@ -26,7 +26,8 @@ func buildOverNode(globalPosition: Vector2, building: String) -> void:
 	if cellId != -1:
 		var tileName = tile_set.tile_get_name(cellId).trim_suffix("Node")
 		if buildingData[building].requiredNode == tileName:
-			print(tileName, " ", cellId)
+			cellId = tile_set.find_tile_by_name(building)
+			set_cellv(newCellPos, cellId)
 			emit_signal("removeCard")
 	
 	

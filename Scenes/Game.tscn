@@ -73,4 +73,6 @@ position = Vector2( -680, 336 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
+[connection signal="removeCard" from="TileMap" to="." method="_on_TileMap_removeCard"]
+[connection signal="removeCard" from="NodeMap" to="." method="_on_NodeMap_removeCard"]
 [connection signal="cardSelected" from="CardHolder" to="." method="_on_CardHolder_cardSelected"]

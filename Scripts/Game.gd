@@ -77,17 +77,14 @@ func _process(delta):
 			var selectedCardData = instance_from_id(selectedCardId)
 			if selectedCardData.cardType == "tile":
 #				Spawn new tile
-				$TileMap.placeTile(mousePos, selectedCardData.cardName)
 				createNode(mousePos, selectedCardData.cardName)
+				$TileMap.placeTile(mousePos, selectedCardData.cardName)
 			elif selectedCardData.cardType == "building":
 #				Build new building
 				$NodeMap.buildOverNode(mousePos, selectedCardData.cardName)
 			else:
 				print_debug("[Error] Invalid card type selected: ", selectedCardData)
 				
-			$CardHolder.deleteCard()
-			$TileMapOverlay.clearShadow()
-			selectedCardId = null
 				
 				
 
@@ -95,3 +92,16 @@ func _process(delta):
 func _on_CardHolder_cardSelected(cardId):
 	selectedCardId = cardId
 #	print("Card selected: ", selectedCard)
+
+func resetSelection():
+	$CardHolder.deleteCard()
+	$TileMapOverlay.clearShadow()
+	selectedCardId = null
+	
+
+func _on_NodeMap_removeCard():
+	resetSelection()
+
+
+func _on_TileMap_removeCard():
+	resetSelection()

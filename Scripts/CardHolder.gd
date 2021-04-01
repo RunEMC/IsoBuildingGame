@@ -1,6 +1,6 @@
 extends Node2D
 
-signal cardSelected(cardType)
+signal cardSelected(cardId)
 
 export (PackedScene) var Card
 export var cycleTime = 5
@@ -13,11 +13,23 @@ var selectedCardId = null
 var cardsToMove = []
 var cardData = [
 	{
-		"type": "dirt",
+		"name": "dirt",
+		"type": "tile",
+		"spawnWeight": 3
+	},
+	{
+		"name": "grass",
+		"type": "tile",
 		"spawnWeight": 2
 	},
 	{
-		"type": "grass",
+		"name": "lumber",
+		"type": "building",
+		"spawnWeight": 1
+	},
+	{
+		"name": "mine",
+		"type": "building",
 		"spawnWeight": 1
 	}
 ]
@@ -28,6 +40,7 @@ var totalSpawnWeight = 0
 func _ready(): 
 	var card = Card.instance()
 	cardSize = card.getSize()
+	card.free()
 	cardHolderSize = $CardHolderUI.texture.get_size()
 	cardsLimit = floor(cardHolderSize.x/(cardSize.x + cardPadding))
 	print_debug("Card limit: ", cardsLimit)
@@ -62,10 +75,10 @@ func setSize(width: int = cardHolderSize.x, height: int = cardHolderSize.y) -> v
 	$CardHolderUI.scale = Vector2(width/cardHolderSize.x, height/cardHolderSize.y)
 	cardHolderSize = Vector2(width, height)
 
-func addCardToHand(cardType: String) -> void:
+func addCardToHand(cardData) -> void:
 	if cardsInHand < cardsLimit:
 		var card = Card.instance()
-		card.setProperties(cardType)
+		card.initCard(cardData.name, cardData.type)
 		card.position.x = cardPadding + ((cardSize.x + cardPadding) * cardsInHand) + floor(cardSize.x / 2)
 		card.connect("cardSelected", self, "_on_Card_cardSelected")
 		
@@ -74,8 +87,8 @@ func addCardToHand(cardType: String) -> void:
 		
 #		print_debug("Added ", cardType, " card at ", card.position)
 		
-	else:
-		print_debug("Hand full!")
+#	else:
+#		print_debug("Hand full!")
 	
 # Deletes selected card
 func deleteCard():
@@ -107,21 +120,22 @@ func deselectCard():
 		selectedCardId = null
 	
 	
-func _on_Card_cardSelected(cardId, cardType):
+func _on_Card_cardSelected(cardId):
 #	Deselect previous card
 	if selectedCardId != cardId:
 		deselectCard()
 		
 	selectedCardId = cardId
 #	print_debug("Selected ", cardType, " card: ", cardId)
-	emit_signal("cardSelected", cardType)
+	emit_signal("cardSelected", cardId)
+	
 	
 func spawnNewCard():
 	randomize()
 	var rng = randi() % totalSpawnWeight + 1
 	for data in cardData:
 		if rng <= data.spawnWeight and data.spawnWeight != null:
-			addCardToHand(data.type)
+			addCardToHand(data)
 			return data
 	
 

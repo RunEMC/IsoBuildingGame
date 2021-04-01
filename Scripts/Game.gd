@@ -1,7 +1,7 @@
 extends Node2D
 
 var screenSize
-var selectedCard = null
+var selectedCardId = null
 #Total weight will be calculated on ready, so don't need to make sure it's accurate
 var nodeSpawnData = {
 	"dirt": {
@@ -35,6 +35,14 @@ var nodeSpawnData = {
 #		"totalWeight": 5
 	}
 }
+var buildingData = {
+	"lumber": {
+		"requiredNode": "tree"
+	},
+	"mine": {
+		"requiredNode": "rock"
+	}
+}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -62,25 +70,35 @@ func createNode(pos, type):
 			if data.nodeType != "nothing":
 				$NodeMap.placeNode(pos, data.nodeType)
 			return data
-
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	var mousePos = get_global_mouse_position()
 		# Try to place new tile down
-	if selectedCard and mousePos.y < 200:
+	if selectedCardId != null and mousePos.y < 200:
 #		Display overlay
 		$TileMapOverlay.setTileShadow(mousePos)
 #		Place Tile
 		if Input.is_action_pressed("game_accept"):
-			print("Mouse Click/Unclick at: ", mousePos)
+#			print("Mouse Click/Unclick at: ", mousePos)
+			var selectedCardData = instance_from_id(selectedCardId)
+			if selectedCardData.cardType == "tile":
+#				Spawn new tile
+				$TileMap.placeTile(mousePos, selectedCardData.cardName)
+				createNode(mousePos, selectedCardData.cardName)
+			if selectedCardData.cardType == "building":
+#				Build new building
+				$NodeMap.buildOverNode(mousePos, selectedCardData.cardName)
+			else:
+				print_debug("[Error] Invalid card type selected: ", selectedCardData)
+#			Additional cleanup
 			$CardHolder.deleteCard()
-			$TileMap.placeTile(mousePos, selectedCard)
-			createNode(mousePos, selectedCard)
 			$TileMapOverlay.clearShadow()
-			selectedCard = null
+			selectedCardId = null
+				
 
 
-func _on_CardHolder_cardSelected(cardType):
-	selectedCard = cardType
-	print("Card selected: ", selectedCard)
+func _on_CardHolder_cardSelected(cardId):
+	selectedCardId = cardId
+#	print("Card selected: ", selectedCard)

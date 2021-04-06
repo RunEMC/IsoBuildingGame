@@ -113,6 +113,7 @@ func _on_TileMap_removeCard():
 
 func _on_ResourceNodeController_resourceProduced(resourceControllerId):
 	var resControllerData = instance_from_id(resourceControllerId)
+	$ResourcePanel.updateCount(resControllerData.resource, resControllerData.amtProducedPerCycle)
 #	print("Resource produced: ", resControllerData.resource)
 	
 	

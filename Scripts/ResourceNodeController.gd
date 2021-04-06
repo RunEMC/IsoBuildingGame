@@ -11,7 +11,7 @@ var resource = "wood"
 var timeToProduce = 1
 var cyclesTillExpire = 5
 var isInfinite = false
-var resProducedPerCycle = 1
+var amtProducedPerCycle = 1
 var nodePos
 
 func initController(res, time, cycles, amt, pos):
@@ -20,7 +20,7 @@ func initController(res, time, cycles, amt, pos):
 	cyclesTillExpire = cycles
 	if cyclesTillExpire <= 0:
 		isInfinite = true
-	resProducedPerCycle = amt
+	amtProducedPerCycle = amt
 	nodePos = pos
 	$NodeProductionTimer.wait_time = timeToProduce
 	$NodeProductionTimer.start()

@@ -1,5 +1,6 @@
 extends Node2D
 
+export (PackedScene) var ResourceNodeController
 var screenSize
 var selectedCardId = null
 #Total weight will be calculated on ready, so don't need to make sure it's accurate
@@ -39,7 +40,7 @@ var nodeSpawnData = {
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	screenSize = get_viewport_rect().size
-	print(screenSize)
+#	print(screenSize)
 	
 #	Calc spawn weights
 	for tileType in nodeSpawnData:
@@ -58,7 +59,7 @@ func createNode(pos, type):
 	var rng = randi() % totalSpawnWeight + 1
 	for data in tileNodeData.rates:
 		if rng <= data.spawnWeight and data.spawnWeight != null:
-			print("rng: ", rng, "node ", data.nodeType)
+#			print("rng: ", rng, "node ", data.nodeType)
 			if data.nodeType != "nothing":
 				$NodeMap.placeNode(pos, data.nodeType)
 			return data
@@ -81,7 +82,13 @@ func _process(delta):
 				$TileMap.placeTile(mousePos, selectedCardData.cardName)
 			elif selectedCardData.cardType == "building":
 #				Build new building
-				$NodeMap.buildOverNode(mousePos, selectedCardData.cardName)
+				var buildingData = $NodeMap.buildOverNode(mousePos, selectedCardData.cardName)
+				if buildingData != null:
+					var nodeController = ResourceNodeController.instance()
+					add_child(nodeController)
+					nodeController.initController(buildingData.resource, 1, 5, 1, buildingData.cellPos)
+					nodeController.connect("resourceProduced", self, "_on_ResourceNodeController_resourceProduced")
+					nodeController.connect("nodeExpired", self, "_on_ResourceNodeController_nodeExpired")
 			else:
 				print_debug("[Error] Invalid card type selected: ", selectedCardData)
 				
@@ -103,3 +110,12 @@ func _on_NodeMap_removeCard():
 
 func _on_TileMap_removeCard():
 	resetSelection()
+
+func _on_ResourceNodeController_resourceProduced(resourceControllerId):
+	var resControllerData = instance_from_id(resourceControllerId)
+#	print("Resource produced: ", resControllerData.resource)
+	
+	
+func _on_ResourceNodeController_nodeExpired(resourceControllerId):
+#	print("Node ", resourceControllerId, " expired")
+	var resControllerData = instance_from_id(resourceControllerId)

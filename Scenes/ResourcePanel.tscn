@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Sprites/stoneIcon.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/woodIcon.png" type="Texture" id=2]
+[ext_resource path="res://Scripts/ResourcePanel.gd" type="Script" id=3]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="ResourcePanel" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="woodIcon" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+
+[node name="woodCount" type="Label" parent="."]
+margin_left = 24.0
+margin_top = -8.0
+margin_right = 48.0
+margin_bottom = 6.0
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="stoneIcon" type="AnimatedSprite" parent="."]
+position = Vector2( 64, 0 )
+frames = SubResource( 2 )
+
+[node name="stoneCount" type="Label" parent="."]
+margin_left = 88.0
+margin_top = -8.0
+margin_right = 112.0
+margin_bottom = 6.0
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}

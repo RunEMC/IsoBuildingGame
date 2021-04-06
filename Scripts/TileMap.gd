@@ -9,7 +9,7 @@ signal removeCard()
 func placeTile(globalPosition: Vector2, tileType: String) -> void:
 	var newCellPos = world_to_map(to_local(globalPosition))
 	var cellId = tile_set.find_tile_by_name(tileType + "Tile")
-	print_debug("Placing tile ", tileType)
+#	print_debug("Placing tile ", tileType)
 	set_cellv(newCellPos, cellId)
 	emit_signal("removeCard")
 

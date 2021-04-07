@@ -97,7 +97,7 @@ func deleteCard():
 		var instCoord = inst.position
 #		print_debug("Deleted card ", selectedCardId, inst)
 		selectedCardId = null
-		inst.free()
+		inst.queue_free()
 		cardsInHand -= 1
 #		Handle shfiting the rest of the cards over
 		var children = get_children()

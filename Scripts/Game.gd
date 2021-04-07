@@ -120,3 +120,6 @@ func _on_ResourceNodeController_resourceProduced(resourceControllerId):
 func _on_ResourceNodeController_nodeExpired(resourceControllerId):
 #	print("Node ", resourceControllerId, " expired")
 	var resControllerData = instance_from_id(resourceControllerId)
+	var nodeCellPos = resControllerData.nodePos
+	$NodeMap.removeNode(nodeCellPos)
+	resControllerData.queue_free()

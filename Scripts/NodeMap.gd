@@ -38,7 +38,9 @@ func buildOverNode(globalPosition: Vector2, building: String):
 				"resource": buildingData.produces
 			}
 	return null
-	
+
+func removeNode(cellPos: Vector2):
+	set_cellv(cellPos, -1)
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
